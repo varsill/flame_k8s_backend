@@ -258,7 +258,7 @@ defmodule FLAMEK8sBackend do
         case created_pod do
           {:ok, pod} ->
             log(state, "Runner pod created and scheduled", pod_ip: pod["status"]["podIP"])
-            %{state | extra: pod}
+            %{state | extra: Map.get(pod, "name")}
   
           :error ->
             Logger.error("failed to schedule runner pod within #{state.boot_timeout}ms")
