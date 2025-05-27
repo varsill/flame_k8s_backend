@@ -260,7 +260,7 @@ defmodule FLAMEK8sBackend do
             log(state, "Runner pod created and scheduled", pod_ip: pod["status"]["podIP"])
             state = %{state | extra: get_in(pod, ["managedFields", "name"])}
             require Logger
-            Logger.warning("STATE: #{inspect(state)}")
+            Logger.warning("POD: #{inspect(pod)}")
             state
   
           :error ->
