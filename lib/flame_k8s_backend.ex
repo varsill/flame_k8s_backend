@@ -164,7 +164,8 @@ defmodule FLAMEK8sBackend do
             remote_terminator_pid: nil,
             omit_owner_reference: false,
             log: false,
-            http: nil
+            http: nil,
+            extra: nil
 
   @valid_opts ~w(app_container_name runner_pod_tpl terminator_sup log boot_timeout omit_owner_reference)a
   @required_config ~w()a
@@ -257,8 +258,9 @@ defmodule FLAMEK8sBackend do
         case created_pod do
           {:ok, pod} ->
             log(state, "Runner pod created and scheduled", pod_ip: pod["status"]["podIP"])
+            state = %{state | extra: get_in(pod, ["metadata", "name"])}
             state
-
+  
           :error ->
             Logger.error("failed to schedule runner pod within #{state.boot_timeout}ms")
             exit(:timeout)
