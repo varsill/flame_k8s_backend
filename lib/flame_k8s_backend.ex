@@ -258,9 +258,9 @@ defmodule FLAMEK8sBackend do
         case created_pod do
           {:ok, pod} ->
             log(state, "Runner pod created and scheduled", pod_ip: pod["status"]["podIP"])
-            state = %{state | extra: get_in(pod, ["managedFields", "name"])}
+            state = %{state | extra: get_in(pod, ["metadata", "name"])}
             require Logger
-            Logger.warning("POD: #{inspect(pod)}")
+            Logger.warning("POD: #{inspect(state.extra)}")
             state
   
           :error ->
